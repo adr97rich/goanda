@@ -36,7 +36,7 @@ type ClosePositionPayload struct {
 }
 
 func (c *OandaConnection) GetOpenPositions() OpenPositions {
-	endpoint := "/accounts/" + c.accountID + "/openPositions"
+	endpoint := "/accounts/" + c.AccountID + "/openPositions"
 
 	response := c.Request(endpoint)
 	data := OpenPositions{}
@@ -45,7 +45,7 @@ func (c *OandaConnection) GetOpenPositions() OpenPositions {
 }
 
 func (c *OandaConnection) ClosePosition(instrument string, body ClosePositionPayload) ModifiedTrade {
-	endpoint := "/accounts/" + c.accountID + "/positions/" + instrument + "/close"
+	endpoint := "/accounts/" + c.AccountID + "/positions/" + instrument + "/close"
 	jsonBody, err := json.Marshal(body)
 	checkErr(err)
 	response := c.Update(endpoint, jsonBody)

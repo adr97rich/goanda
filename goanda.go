@@ -71,46 +71,32 @@ func NewConnection(accountID string, token string, live bool) *OandaConnection {
 
 // TODO: include params as a second option
 func (c *OandaConnection) Request(endpoint string) []byte {
-	var body []byte
-	client := http.Client{
-		Timeout: time.Second * 10, // 10 sec timeout
+	client := http.Client {
+		Timeout: time.Second * 5, // 5 sec timeout
 	}
 
 	url := createUrl(c.Hostname, endpoint)
 
-	done := false
-        for done == false {
-	   req, err := http.NewRequest(http.MethodGet, url, nil)
-           if err != nil {
-	      time.Sleep(3 * time.Second)
-           } else {
-              done = true
-	      body = makeRequest(c, endpoint, client, req)
-           }
-        }
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	checkErr(err)
+  
+  body := makeRequest(c, endpoint, client, req)
 	
 	return body
 }
 
 func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
-	var body []byte
 	client := http.Client{
-		Timeout: time.Second * 10, // 5 sec timeout
+		Timeout: time.Second * 5, // 5 sec timeout
 	}
 
 	url := createUrl(c.Hostname, endpoint)
 
 	// New request object
-	done := false
-        for done == false {
-	   req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
-           if err != nil {
-	      time.Sleep(3 * time.Second)
-           } else {
-              done = true
-	      body = makeRequest(c, endpoint, client, req)
-           }
-	}
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
+  checkErr(err)
+
+  body := makeRequest(c, endpoint, client, req)
 
 	return body
 }
@@ -124,6 +110,8 @@ func (c *OandaConnection) Update(endpoint string, data []byte) []byte {
 
 	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(data))
 	checkErr(err)
+
 	body := makeRequest(c, endpoint, client, req)
+
 	return body
 }

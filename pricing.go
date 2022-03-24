@@ -50,7 +50,7 @@ type Pricings struct {
 
 func (c *OandaConnection) GetPricingForInstruments(instruments []string) Pricings {
 	instrumentString := strings.Join(instruments, ",")
-	endpoint := "/accounts/" + c.accountID + "/pricing?instruments=" + url.QueryEscape(instrumentString)
+	endpoint := "/accounts/" + c.AccountID + "/pricing?instruments=" + url.QueryEscape(instrumentString)
 
 	response := c.Request(endpoint)
 	data := Pricings{}

@@ -21,7 +21,7 @@ type OnFill struct {
 type OrderBody struct {
 	Units            string           `json:"units"`
 	Instrument       string           `json:"instrument"`
-	TimeInForce      string           `json:"timeInForce"`
+	TimeInForce      string           `json:"timeInForce,omitempty"`
 	Type             string           `json:"type"`
 	PositionFill     string           `json:"positionFill,omitempty"`
 	Price            string           `json:"price,omitempty"`

@@ -39,9 +39,9 @@ func createUrl(host string, endpoint string) string {
 }
 
 func makeRequest(c *OandaConnection, endpoint string, client http.Client, req *http.Request) []byte {
-	req.Header.Set("User-Agent", c.headers.agent)
-	req.Header.Set("Authorization", c.headers.auth)
-	req.Header.Set("Content-Type", c.headers.contentType)
+	req.Header.Set("User-Agent", c.Headers.agent)
+	req.Header.Set("Authorization", c.Headers.auth)
+	req.Header.Set("Content-Type", c.Headers.contentType)
 
 	res, getErr := client.Do(req)
 	checkErr(getErr)

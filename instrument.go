@@ -140,7 +140,7 @@ func (c *OandaConnection) PositionBook(instrument string) BrokerBook {
 }
 
 func (c *OandaConnection) GetInstrumentPrice(instrument string) InstrumentPricing {
-	endpoint := "/accounts/" + c.accountID + "/pricing?instruments=" + instrument
+	endpoint := "/accounts/" + c.AccountID + "/pricing?instruments=" + instrument
 	pricing := c.Request(endpoint)
 	data := InstrumentPricing{}
 	unmarshalJson(pricing, &data)

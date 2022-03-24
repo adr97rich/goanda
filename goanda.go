@@ -93,6 +93,7 @@ func (c *OandaConnection) Request(endpoint string) []byte {
 }
 
 func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
+	var body []byte
 	client := http.Client{
 		Timeout: time.Second * 10, // 5 sec timeout
 	}
@@ -107,10 +108,9 @@ func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
 	      time.Sleep(3 * time.Second)
            } else {
               done = true
+	      body = makeRequest(c, endpoint, client, req)
            }
-        }
-	
-	body := makeRequest(c, endpoint, client, req)
+	}
 
 	return body
 }

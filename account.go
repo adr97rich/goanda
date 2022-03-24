@@ -301,7 +301,7 @@ func (c *OandaConnection) GetAccount(id string) AccountInfo {
 }
 
 func (c *OandaConnection) GetOrderDetails(instrument string, units string) OrderDetails {
-	endpoint := "/accounts/" + c.accountID + "/orderEntryData?disableFiltering=true&instrument=" + instrument + "&orderPositionFill=DEFAULT&units=" + units
+	endpoint := "/accounts/" + c.AccountID + "/orderEntryData?disableFiltering=true&instrument=" + instrument + "&orderPositionFill=DEFAULT&units=" + units
 	orderDetails := c.Request(endpoint)
 	data := OrderDetails{}
 	unmarshalJson(orderDetails, &data)
@@ -310,7 +310,7 @@ func (c *OandaConnection) GetOrderDetails(instrument string, units string) Order
 }
 
 func (c *OandaConnection) GetAccountSummary() AccountSummary {
-	endpoint := "/accounts/" + c.accountID + "/summary"
+	endpoint := "/accounts/" + c.AccountID + "/summary"
 
 	response := c.Request(endpoint)
 	data := AccountSummary{}

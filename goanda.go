@@ -71,6 +71,7 @@ func NewConnection(accountID string, token string, live bool) *OandaConnection {
 
 // TODO: include params as a second option
 func (c *OandaConnection) Request(endpoint string) []byte {
+	var body []byte
 	client := http.Client{
 		Timeout: time.Second * 10, // 10 sec timeout
 	}
@@ -84,11 +85,10 @@ func (c *OandaConnection) Request(endpoint string) []byte {
 	      time.Sleep(3 * time.Second)
            } else {
               done = true
+	      body = makeRequest(c, endpoint, client, req)
            }
         }
-
-	body := makeRequest(c, endpoint, client, req)
-
+	
 	return body
 }
 

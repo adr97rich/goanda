@@ -31,8 +31,8 @@ type OpenPositions struct {
 }
 
 type ClosePositionPayload struct {
-	LongUnits  string `json:"longUnits"`
-	ShortUnits string `json: "shortUnits"`
+	LongUnits  string `json:"longUnits,omitempty"`
+	ShortUnits string `json:"shortUnits,omitempty"`
 }
 
 func (c *OandaConnection) GetOpenPositions() OpenPositions {

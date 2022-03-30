@@ -72,7 +72,7 @@ func NewConnection(accountID string, token string, live bool) *OandaConnection {
 // TODO: include params as a second option
 func (c *OandaConnection) Request(endpoint string) []byte {
 	client := http.Client {
-		Timeout: time.Second * 5, // 5 sec timeout
+		Timeout: time.Second * 20, // 20 sec timeout
 	}
 
 	url := createUrl(c.Hostname, endpoint)
@@ -87,7 +87,7 @@ func (c *OandaConnection) Request(endpoint string) []byte {
 
 func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
 	client := http.Client{
-		Timeout: time.Second * 5, // 5 sec timeout
+		Timeout: time.Second * 20, // 20 sec timeout
 	}
 
 	url := createUrl(c.Hostname, endpoint)
@@ -103,7 +103,7 @@ func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
 
 func (c *OandaConnection) Update(endpoint string, data []byte) []byte {
 	client := http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 20,
 	}
 
 	url := createUrl(c.Hostname, endpoint)

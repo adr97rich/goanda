@@ -1,27 +1,23 @@
 package goanda
 
 import (
-  "time"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 )
 
 func checkErr(err error) {
 	if err != nil {
-		log.Println(err)
-    time.Sleep(5 * time.Second)
+		panic(err)
 	}
 }
 
 func checkApiErr(body []byte, route string) {
 	bodyString := string(body[:])
 	if strings.Contains(bodyString, "errorMessage") {
-		log.SetFlags(log.LstdFlags | log.Llongfile)
-		log.Println("\nOANDA API Error: " + bodyString + "\nOn route: " + route)
+		panic("\nOANDA API Error: " + bodyString + "\nOn route: " + route)
 	}
 }
 

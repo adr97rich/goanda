@@ -122,21 +122,29 @@ func (c *OandaConnection) GetBidAskCandles(instrument string, count string, gran
 }
 
 func (c *OandaConnection) OrderBook(instrument string) BrokerBook {
+	var json_data interface{}
 	endpoint := "/instruments/" + instrument + "/orderBook"
-	orderbook := c.Request(endpoint)
-	data := BrokerBook{}
-	unmarshalJson(orderbook, &data)
+	data := c.Request(endpoint)
+	orderbook := BrokerBook{}
+	unmarshalJson(data, &json_data)
+	json_data = json_data.(map[string]interface{})["orderBook"]
+	bytes := marshalJson(json_data)
+	unmarshalJson(bytes, &orderbook)
 
-	return data
+	return orderbook
 }
 
 func (c *OandaConnection) PositionBook(instrument string) BrokerBook {
+	var json_data interface{}
 	endpoint := "/instruments/" + instrument + "/positionBook"
-	orderbook := c.Request(endpoint)
-	data := BrokerBook{}
-	unmarshalJson(orderbook, &data)
+	data := c.Request(endpoint)
+	positionbook := BrokerBook{}
+	unmarshalJson(data, &json_data)
+	json_data = json_data.(map[string]interface{})["positionBook"]
+	bytes := marshalJson(json_data)
+	unmarshalJson(bytes, &positionbook)
 
-	return data
+	return positionbook
 }
 
 func (c *OandaConnection) GetInstrumentPrice(instrument string) InstrumentPricing {

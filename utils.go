@@ -21,6 +21,13 @@ func checkApiErr(body []byte, route string) {
 	}
 }
 
+func marshalJson(data interface{}) []byte {
+	bytes, err := json.Marshal(data)
+	checkErr(err)
+	
+	return bytes
+}
+
 func unmarshalJson(body []byte, data interface{}) {
 	jsonErr := json.Unmarshal(body, &data)
 	checkErr(jsonErr)

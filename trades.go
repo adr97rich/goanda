@@ -113,7 +113,7 @@ type ModifiedTrade struct {
 }
 
 func (c *OandaConnection) GetTradesForInstrument(instrument string) ReceivedTrades {
-	endpoint := "/accounts/" + c.AccountID + "/trades" + "?instrument=" + instrument
+	endpoint := "v3/accounts/" + c.AccountID + "/trades" + "?instrument=" + instrument
 
 	response := c.Request(endpoint)
 	data := ReceivedTrades{}
@@ -122,7 +122,7 @@ func (c *OandaConnection) GetTradesForInstrument(instrument string) ReceivedTrad
 }
 
 func (c *OandaConnection) GetOpenTrades() ReceivedTrades {
-	endpoint := "/accounts/" + c.AccountID + "/openTrades"
+	endpoint := "v3/accounts/" + c.AccountID + "/openTrades"
 
 	response := c.Request(endpoint)
 	data := ReceivedTrades{}
@@ -131,7 +131,7 @@ func (c *OandaConnection) GetOpenTrades() ReceivedTrades {
 }
 
 func (c *OandaConnection) GetTrade(ticket string) ReceivedTrade {
-	endpoint := "/accounts/" + c.AccountID + "/trades" + "/" + ticket
+	endpoint := "v3/accounts/" + c.AccountID + "/trades" + "/" + ticket
 
 	response := c.Request(endpoint)
 	data := ReceivedTrade{}
@@ -141,7 +141,7 @@ func (c *OandaConnection) GetTrade(ticket string) ReceivedTrade {
 
 // Default is close the whole position using the string "ALL" in body.units
 func (c *OandaConnection) ReduceTradeSize(ticket string, body CloseTradePayload) ModifiedTrade {
-	endpoint := "/accounts/" + c.AccountID + "/trades/" + ticket
+	endpoint := "v3/accounts/" + c.AccountID + "/trades/" + ticket
 	jsonBody, err := json.Marshal(body)
 	checkErr(err)
 	response := c.Update(endpoint, jsonBody)

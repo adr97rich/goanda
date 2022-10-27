@@ -283,7 +283,7 @@ type OrderDetails struct {
 }
 
 func (c *OandaConnection) GetAccounts() AccountProperties {
-	endpoint := "/accounts"
+	endpoint := "v3/accounts"
 
 	response := c.Request(endpoint)
 	data := AccountProperties{}
@@ -292,7 +292,7 @@ func (c *OandaConnection) GetAccounts() AccountProperties {
 }
 
 func (c *OandaConnection) GetAccount(id string) AccountInfo {
-	endpoint := "/accounts/" + id
+	endpoint := "v3/accounts/" + id
 
 	response := c.Request(endpoint)
 	data := AccountInfo{}
@@ -301,7 +301,7 @@ func (c *OandaConnection) GetAccount(id string) AccountInfo {
 }
 
 func (c *OandaConnection) GetOrderDetails(instrument string, units string) OrderDetails {
-	endpoint := "/accounts/" + c.AccountID + "/orderEntryData?disableFiltering=true&instrument=" + instrument + "&orderPositionFill=DEFAULT&units=" + units
+	endpoint := "v3/accounts/" + c.AccountID + "/orderEntryData?disableFiltering=true&instrument=" + instrument + "&orderPositionFill=DEFAULT&units=" + units
 	orderDetails := c.Request(endpoint)
 	data := OrderDetails{}
 	unmarshalJson(orderDetails, &data)
@@ -310,7 +310,7 @@ func (c *OandaConnection) GetOrderDetails(instrument string, units string) Order
 }
 
 func (c *OandaConnection) GetAccountSummary() AccountSummary {
-	endpoint := "/accounts/" + c.AccountID + "/summary"
+	endpoint := "v3/accounts/" + c.AccountID + "/summary"
 
 	response := c.Request(endpoint)
 	data := AccountSummary{}
@@ -319,7 +319,7 @@ func (c *OandaConnection) GetAccountSummary() AccountSummary {
 }
 
 func (c *OandaConnection) GetAccountInstruments(id string) AccountInstruments {
-	endpoint := "/accounts/" + id + "/instruments"
+	endpoint := "v3/accounts/" + id + "/instruments"
 
 	response := c.Request(endpoint)
 	data := AccountInstruments{}
@@ -328,7 +328,7 @@ func (c *OandaConnection) GetAccountInstruments(id string) AccountInstruments {
 }
 
 func (c *OandaConnection) GetAccountChanges(id string, transactionId string) AccountChanges {
-	endpoint := "/accounts/" + id + "/changes?sinceTransactionID=" + transactionId
+	endpoint := "v3/accounts/" + id + "/changes?sinceTransactionID=" + transactionId
 
 	response := c.Request(endpoint)
 	data := AccountChanges{}

@@ -120,7 +120,7 @@ type CancelledOrder struct {
 }
 
 func (c *OandaConnection) CreateOrder(body OrderPayload) OrderResponse {
-	endpoint := "/accounts/" + c.AccountID + "/orders"
+	endpoint := "v3/accounts/" + c.AccountID + "/orders"
 	jsonBody, err := json.Marshal(body)
 	checkErr(err)
 	response := c.Send(endpoint, jsonBody)
@@ -130,7 +130,7 @@ func (c *OandaConnection) CreateOrder(body OrderPayload) OrderResponse {
 }
 
 func (c *OandaConnection) GetOrders(instrument string) RetrievedOrders {
-	endpoint := "/accounts/" + c.AccountID + "/orders"
+	endpoint := "v3/accounts/" + c.AccountID + "/orders"
 
 	if instrument != "" {
 		endpoint = endpoint + "?instrument=" + instrument
@@ -143,7 +143,7 @@ func (c *OandaConnection) GetOrders(instrument string) RetrievedOrders {
 }
 
 func (c *OandaConnection) GetPendingOrders() RetrievedOrders {
-	endpoint := "/accounts/" + c.AccountID + "/pendingOrders"
+	endpoint := "v3/accounts/" + c.AccountID + "/pendingOrders"
 
 	response := c.Request(endpoint)
 	data := RetrievedOrders{}
@@ -153,7 +153,7 @@ func (c *OandaConnection) GetPendingOrders() RetrievedOrders {
 }
 
 func (c *OandaConnection) GetOrder(orderSpecifier string) RetrievedOrder {
-	endpoint := "/accounts/" + c.AccountID + "/orders/" + orderSpecifier
+	endpoint := "v3/accounts/" + c.AccountID + "/orders/" + orderSpecifier
 
 	response := c.Request(endpoint)
 	data := RetrievedOrder{}
@@ -163,7 +163,7 @@ func (c *OandaConnection) GetOrder(orderSpecifier string) RetrievedOrder {
 }
 
 func (c *OandaConnection) UpdateOrder(orderSpecifier string, body OrderPayload) RetrievedOrder {
-	endpoint := "/accounts/" + c.AccountID + "/orders/" + orderSpecifier
+	endpoint := "v3/accounts/" + c.AccountID + "/orders/" + orderSpecifier
 	jsonBody, err := json.Marshal(body)
 	checkErr(err)
 	response := c.Update(endpoint, jsonBody)
@@ -173,7 +173,7 @@ func (c *OandaConnection) UpdateOrder(orderSpecifier string, body OrderPayload) 
 }
 
 func (c *OandaConnection) CancelOrder(orderSpecifier string) CancelledOrder {
-	endpoint := "/accounts/" + c.AccountID + "/orders/" + orderSpecifier + "/cancel"
+	endpoint := "v3/accounts/" + c.AccountID + "/orders/" + orderSpecifier + "/cancel"
 	response := c.Update(endpoint, nil)
 	data := CancelledOrder{}
 	unmarshalJson(response, &data)

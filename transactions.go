@@ -70,7 +70,7 @@ func (c *OandaConnection) GetTransactions(from time.Time, to time.Time) Transact
 	toTime := to.Format(time.RFC3339)
 	fromTime := from.Format(time.RFC3339)
 
-	endpoint := "/accounts/" + c.AccountID + "/transactions?to=" + url.QueryEscape(toTime) + "&from=" + url.QueryEscape(fromTime)
+	endpoint := "v3/accounts/" + c.AccountID + "/transactions?to=" + url.QueryEscape(toTime) + "&from=" + url.QueryEscape(fromTime)
 
 	response := c.Request(endpoint)
 	data := TransactionPages{}
@@ -80,7 +80,7 @@ func (c *OandaConnection) GetTransactions(from time.Time, to time.Time) Transact
 
 func (c *OandaConnection) GetTransaction(ticket string) Transaction {
 
-	endpoint := "/accounts/" + c.AccountID + "/transactions/" + ticket
+	endpoint := "v3/accounts/" + c.AccountID + "/transactions/" + ticket
 
 	response := c.Request(endpoint)
 	data := Transaction{}
@@ -90,7 +90,7 @@ func (c *OandaConnection) GetTransaction(ticket string) Transaction {
 
 func (c *OandaConnection) GetTransactionsSinceId(id string) Transactions {
 
-	endpoint := "/accounts/" + c.AccountID + "/transactions/sinceid?id=" + id
+	endpoint := "v3/accounts/" + c.AccountID + "/transactions/sinceid?id=" + id
 
 	response := c.Request(endpoint)
 	data := Transactions{}

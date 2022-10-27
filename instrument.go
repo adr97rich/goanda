@@ -104,7 +104,7 @@ type InstrumentPricing struct {
 }
 
 func (c *OandaConnection) GetCandles(instrument string, count string, granularity string) InstrumentHistory {
-	endpoint := "/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity
+	endpoint := "v3/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity
 	candles := c.Request(endpoint)
 	data := InstrumentHistory{}
 	unmarshalJson(candles, &data)
@@ -113,7 +113,7 @@ func (c *OandaConnection) GetCandles(instrument string, count string, granularit
 }
 
 func (c *OandaConnection) GetBidAskCandles(instrument string, count string, granularity string) BidAskCandles {
-	endpoint := "/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity + "&price=BA"
+	endpoint := "v3/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity + "&price=BA"
 	candles := c.Request(endpoint)
 	data := BidAskCandles{}
 	unmarshalJson(candles, &data)
@@ -123,7 +123,7 @@ func (c *OandaConnection) GetBidAskCandles(instrument string, count string, gran
 
 func (c *OandaConnection) OrderBook(instrument string) BrokerBook {
 	var json_data interface{}
-	endpoint := "/instruments/" + instrument + "/orderBook"
+	endpoint := "v3/instruments/" + instrument + "/orderBook"
 	data := c.Request(endpoint)
 	orderbook := BrokerBook{}
 	unmarshalJson(data, &json_data)
@@ -136,7 +136,7 @@ func (c *OandaConnection) OrderBook(instrument string) BrokerBook {
 
 func (c *OandaConnection) PositionBook(instrument string) BrokerBook {
 	var json_data interface{}
-	endpoint := "/instruments/" + instrument + "/positionBook"
+	endpoint := "v3/instruments/" + instrument + "/positionBook"
 	data := c.Request(endpoint)
 	positionbook := BrokerBook{}
 	unmarshalJson(data, &json_data)
@@ -148,7 +148,7 @@ func (c *OandaConnection) PositionBook(instrument string) BrokerBook {
 }
 
 func (c *OandaConnection) GetInstrumentPrice(instrument string) InstrumentPricing {
-	endpoint := "/accounts/" + c.AccountID + "/pricing?instruments=" + instrument
+	endpoint := "v3/accounts/" + c.AccountID + "/pricing?instruments=" + instrument
 	pricing := c.Request(endpoint)
 	data := InstrumentPricing{}
 	unmarshalJson(pricing, &data)

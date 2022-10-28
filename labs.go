@@ -18,7 +18,6 @@ func (c *OandaConnection) GetOrderBookData(instrument string, period string) int
 }
 
 func (c *OandaConnection) GetSpreads(instrument string, period string) Spreads {
-	var json_data interface{}
   endpoint := "labs/v1/spreads?instrument=" + instrument + "&period=" + period
 	data := c.Request(endpoint)
   spreads := Spreads{}

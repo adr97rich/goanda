@@ -8,20 +8,20 @@ type Spreads struct {
 
 }
 
-func (c *OandaConnection) GetOrderBookData(instrument string, period string) interface{} {
+func (c *OandaConnection) GetOrderBookData(instrument string, period string) (interface{}, error, error) {
 	var json_data interface{}
   endpoint := "labs/v1/orderbook_data?instrument=" + instrument + "&period=" + period
-	data := c.Request(endpoint)
-	unmarshalJson(data, &json_data)
+	data, err1, err2 := c.Request(endpoint)
+	_ = unmarshalJson(data, &json_data)
 
-	return json_data
+	return json_data, err1, err2
 }
 
-func (c *OandaConnection) GetSpreads(instrument string, period string) Spreads {
+func (c *OandaConnection) GetSpreads(instrument string, period string) (Spreads, error, error) {
   endpoint := "labs/v1/spreads?instrument=" + instrument + "&period=" + period
-	data := c.Request(endpoint)
+	data, err1, err2 := c.Request(endpoint)
   spreads := Spreads{}
-	unmarshalJson(data, &spreads)
+	_ = unmarshalJson(data, &spreads)
 
-	return spreads
+	return spreads, err1, err2
 }

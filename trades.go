@@ -112,40 +112,43 @@ type ModifiedTrade struct {
 	LastTransactionID     string   `json:"lastTransactionID"`
 }
 
-func (c *OandaConnection) GetTradesForInstrument(instrument string) ReceivedTrades {
+func (c *OandaConnection) GetTradesForInstrument(instrument string) (ReceivedTrades, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/trades" + "?instrument=" + instrument
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := ReceivedTrades{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetOpenTrades() ReceivedTrades {
+func (c *OandaConnection) GetOpenTrades() (ReceivedTrades, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/openTrades"
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := ReceivedTrades{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetTrade(ticket string) ReceivedTrade {
+func (c *OandaConnection) GetTrade(ticket string) (ReceivedTrade, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/trades" + "/" + ticket
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := ReceivedTrade{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
 // Default is close the whole position using the string "ALL" in body.units
-func (c *OandaConnection) ReduceTradeSize(ticket string, body CloseTradePayload) ModifiedTrade {
+func (c *OandaConnection) ReduceTradeSize(ticket string, body CloseTradePayload) (ModifiedTrade, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/trades/" + ticket
-	jsonBody, err := json.Marshal(body)
-	checkErr(err)
-	response := c.Update(endpoint, jsonBody)
+	jsonBody, _ := json.Marshal(body)
+	//checkErr(err)
+	response, err1, err2 := c.Update(endpoint, jsonBody)
 	data := ModifiedTrade{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }

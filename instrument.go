@@ -7,10 +7,10 @@ import (
 )
 
 type Candle struct {
-	Open  float64 `json:"o,string"`
-	Close float64 `json:"c,string"`
-	Low   float64 `json:"l,string"`
-	High  float64 `json:"h,string"`
+	Open  string `json:"o"`
+	Close string `json:"c"`
+	Low   string `json:"l"`
+	High  string `json:"h"`
 }
 
 type Candles struct {
@@ -23,16 +23,16 @@ type Candles struct {
 type BidAskCandles struct {
 	Candles []struct {
 		Ask struct {
-			C float64 `json:"c,string"`
-			H float64 `json:"h,string"`
-			L float64 `json:"l,string"`
-			O float64 `json:"o,string"`
+			C string `json:"c"`
+			H string `json:"h"`
+			L string `json:"l"`
+			O string `json:"o"`
 		} `json:"ask"`
 		Bid struct {
-			C float64 `json:"c,string"`
-			H float64 `json:"h,string"`
-			L float64 `json:"l,string"`
-			O float64 `json:"o,string"`
+			C string `json:"c"`
+			H string `json:"h"`
+			L string `json:"l"`
+			O string `json:"o"`
 		} `json:"bid"`
 		Complete bool      `json:"complete"`
 		Time     time.Time `json:"time"`
@@ -103,55 +103,55 @@ type InstrumentPricing struct {
 	} `json:"prices"`
 }
 
-func (c *OandaConnection) GetCandles(instrument string, count string, granularity string) InstrumentHistory {
+func (c *OandaConnection) GetCandles(instrument string, count string, granularity string) (InstrumentHistory, error, error) {
 	endpoint := "v3/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity
-	candles := c.Request(endpoint)
+	candles, err1, err2 := c.Request(endpoint)
 	data := InstrumentHistory{}
-	unmarshalJson(candles, &data)
+  _ = unmarshalJson(candles, &data)
 
-	return data
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetBidAskCandles(instrument string, count string, granularity string) BidAskCandles {
+func (c *OandaConnection) GetBidAskCandles(instrument string, count string, granularity string) (BidAskCandles, error, error) {
 	endpoint := "v3/instruments/" + instrument + "/candles?count=" + count + "&granularity=" + granularity + "&price=BA"
-	candles := c.Request(endpoint)
+	candles, err1, err2 := c.Request(endpoint)
 	data := BidAskCandles{}
-	unmarshalJson(candles, &data)
+  _ = unmarshalJson(candles, &data)
 
-	return data
+	return data, err1, err2
 }
 
-func (c *OandaConnection) OrderBook(instrument string) BrokerBook {
+func (c *OandaConnection) OrderBook(instrument string) (BrokerBook, error, error) {
 	var json_data interface{}
 	endpoint := "v3/instruments/" + instrument + "/orderBook"
-	data := c.Request(endpoint)
+	data, err1, err2 := c.Request(endpoint)
 	orderbook := BrokerBook{}
-	unmarshalJson(data, &json_data)
+  _ = unmarshalJson(data, &json_data)
 	json_data = json_data.(map[string]interface{})["orderBook"]
-	bytes := marshalJson(json_data)
-	unmarshalJson(bytes, &orderbook)
+	bytes, _ := marshalJson(json_data)
+	_ = unmarshalJson(bytes, &orderbook)
 
-	return orderbook
+	return orderbook, err1, err2
 }
 
-func (c *OandaConnection) PositionBook(instrument string) BrokerBook {
+func (c *OandaConnection) PositionBook(instrument string) (BrokerBook, error, error) {
 	var json_data interface{}
 	endpoint := "v3/instruments/" + instrument + "/positionBook"
-	data := c.Request(endpoint)
+	data, err1, err2 := c.Request(endpoint)
 	positionbook := BrokerBook{}
-	unmarshalJson(data, &json_data)
+	_ = unmarshalJson(data, &json_data)
 	json_data = json_data.(map[string]interface{})["positionBook"]
-	bytes := marshalJson(json_data)
-	unmarshalJson(bytes, &positionbook)
+	bytes, _ := marshalJson(json_data)
+	_ = unmarshalJson(bytes, &positionbook)
 
-	return positionbook
+	return positionbook, err1, err2
 }
 
-func (c *OandaConnection) GetInstrumentPrice(instrument string) InstrumentPricing {
+func (c *OandaConnection) GetInstrumentPrice(instrument string) (InstrumentPricing, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/pricing?instruments=" + instrument
-	pricing := c.Request(endpoint)
+	pricing, err1, err2 := c.Request(endpoint)
 	data := InstrumentPricing{}
-	unmarshalJson(pricing, &data)
+	_ = unmarshalJson(pricing, &data)
 
-	return data
+	return data, err1, err2
 }

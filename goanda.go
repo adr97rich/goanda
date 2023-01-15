@@ -70,22 +70,30 @@ func NewConnection(accountID string, token string, live bool) *OandaConnection {
 }
 
 // TODO: include params as a second option
-func (c *OandaConnection) Request(endpoint string) []byte {
+func (c *OandaConnection) Request(endpoint string) ([]byte, error, error) {
+
+  var body []byte
+  var err2, err3 error
+
 	client := http.Client {
 		Timeout: time.Second * 5, // 5 sec timeout
 	}
 
 	url := createUrl(c.Hostname, endpoint)
 
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	checkErr(err)
-  
-  body := makeRequest(c, endpoint, client, req)
+	req, err1 := http.NewRequest(http.MethodGet, url, nil)
+  if err1 == nil {
+      body, err2, err3 = makeRequest(c, endpoint, client, req)
+  }
 	
-	return body
+	return body, err2, err3
 }
 
-func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
+func (c *OandaConnection) Send(endpoint string, data []byte) ([]byte, error, error) {
+
+  var body []byte
+  var err2, err3 error
+  
 	client := http.Client{
 		Timeout: time.Second * 5, // 5 sec timeout
 	}
@@ -93,25 +101,31 @@ func (c *OandaConnection) Send(endpoint string, data []byte) []byte {
 	url := createUrl(c.Hostname, endpoint)
 
 	// New request object
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
-  checkErr(err)
+	req, err1 := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(data))
+  //checkErr(err)
+  if err1 == nil {
+      body, err2, err3 = makeRequest(c, endpoint, client, req)
+  }
 
-  body := makeRequest(c, endpoint, client, req)
-
-	return body
+	return body, err2, err3
 }
 
-func (c *OandaConnection) Update(endpoint string, data []byte) []byte {
+func (c *OandaConnection) Update(endpoint string, data []byte) ([]byte, error, error) {
+
+  var body []byte
+  var err2, err3 error
+
 	client := http.Client{
 		Timeout: time.Second * 5,
 	}
 
 	url := createUrl(c.Hostname, endpoint)
 
-	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(data))
-	checkErr(err)
+	req, err1 := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(data))
+	//checkErr(err)
+  if err1 == nil {
+      body, err2, err3 = makeRequest(c, endpoint, client, req)
+  }
 
-	body := makeRequest(c, endpoint, client, req)
-
-	return body
+	return body, err2, err3
 }

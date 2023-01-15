@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
+//func checkErr(err error) {
+//	if err != nil {
+//		panic(err)
+//	}
+//}
 
 func checkApiErr(body []byte, route string) {
 	bodyString := string(body[:])
@@ -21,16 +21,17 @@ func checkApiErr(body []byte, route string) {
 	}
 }
 
-func marshalJson(data interface{}) []byte {
+func marshalJson(data interface{}) ([]byte, error) {
 	bytes, err := json.Marshal(data)
-	checkErr(err)
+	//checkErr(err)
 	
-	return bytes
+	return bytes, err
 }
 
-func unmarshalJson(body []byte, data interface{}) {
+func unmarshalJson(body []byte, data interface{}) (error) {
 	jsonErr := json.Unmarshal(body, &data)
-	checkErr(jsonErr)
+  return jsonErr
+	//checkErr(jsonErr)
 }
 
 func createUrl(host string, endpoint string) string {
@@ -43,15 +44,16 @@ func createUrl(host string, endpoint string) string {
 	return url
 }
 
-func makeRequest(c *OandaConnection, endpoint string, client http.Client, req *http.Request) []byte {
+func makeRequest(c *OandaConnection, endpoint string, client http.Client, req *http.Request) ([]byte, error, error) {
 	req.Header.Set("User-Agent", c.Headers.agent)
 	req.Header.Set("Authorization", c.Headers.auth)
 	req.Header.Set("Content-Type", c.Headers.contentType)
 
 	res, getErr := client.Do(req)
-	checkErr(getErr)
+	//checkErr(getErr)
 	body, readErr := ioutil.ReadAll(res.Body)
-	checkErr(readErr)
+	//checkErr(readErr)
 	checkApiErr(body, endpoint)
-	return body
+
+	return body, getErr, readErr
 }

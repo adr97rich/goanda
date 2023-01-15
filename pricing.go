@@ -48,12 +48,13 @@ type Pricings struct {
 	} `json:"prices"`
 }
 
-func (c *OandaConnection) GetPricingForInstruments(instruments []string) Pricings {
+func (c *OandaConnection) GetPricingForInstruments(instruments []string) (Pricings, error, error) {
 	instrumentString := strings.Join(instruments, ",")
 	endpoint := "v3/accounts/" + c.AccountID + "/pricing?instruments=" + url.QueryEscape(instrumentString)
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := Pricings{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }

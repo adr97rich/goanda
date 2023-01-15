@@ -66,34 +66,37 @@ type Transactions struct {
 
 // https://golang.org/pkg/time/#Time.AddDate
 // https://play.golang.org/p/Dw7D4JJ7EC
-func (c *OandaConnection) GetTransactions(from time.Time, to time.Time) TransactionPages {
+func (c *OandaConnection) GetTransactions(from time.Time, to time.Time) (TransactionPages, error, error) {
 	toTime := to.Format(time.RFC3339)
 	fromTime := from.Format(time.RFC3339)
 
 	endpoint := "v3/accounts/" + c.AccountID + "/transactions?to=" + url.QueryEscape(toTime) + "&from=" + url.QueryEscape(fromTime)
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := TransactionPages{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetTransaction(ticket string) Transaction {
+func (c *OandaConnection) GetTransaction(ticket string) (Transaction, error, error) {
 
 	endpoint := "v3/accounts/" + c.AccountID + "/transactions/" + ticket
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := Transaction{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetTransactionsSinceId(id string) Transactions {
+func (c *OandaConnection) GetTransactionsSinceId(id string) (Transactions, error, error) {
 
 	endpoint := "v3/accounts/" + c.AccountID + "/transactions/sinceid?id=" + id
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := Transactions{}
-	unmarshalJson(response, &data)
-	return data
+	_ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }

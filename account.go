@@ -282,56 +282,61 @@ type OrderDetails struct {
 	LastTransactionID string `json:"lastTransactionID"`
 }
 
-func (c *OandaConnection) GetAccounts() AccountProperties {
+func (c *OandaConnection) GetAccounts() (AccountProperties, error, error) {
 	endpoint := "v3/accounts"
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := AccountProperties{}
-	unmarshalJson(response, &data)
-	return data
+  _ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetAccount(id string) AccountInfo {
+func (c *OandaConnection) GetAccount(id string) (AccountInfo, error, error) {
 	endpoint := "v3/accounts/" + id
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := AccountInfo{}
-	unmarshalJson(response, &data)
-	return data
+  _ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetOrderDetails(instrument string, units string) OrderDetails {
+func (c *OandaConnection) GetOrderDetails(instrument string, units string) (OrderDetails, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/orderEntryData?disableFiltering=true&instrument=" + instrument + "&orderPositionFill=DEFAULT&units=" + units
-	orderDetails := c.Request(endpoint)
+	orderDetails, err1, err2 := c.Request(endpoint)
 	data := OrderDetails{}
-	unmarshalJson(orderDetails, &data)
+  _ = unmarshalJson(orderDetails, &data)
 
-	return data
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetAccountSummary() AccountSummary {
+func (c *OandaConnection) GetAccountSummary() (AccountSummary, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/summary"
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := AccountSummary{}
-	unmarshalJson(response, &data)
-	return data
+  _ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetAccountInstruments(id string) AccountInstruments {
+func (c *OandaConnection) GetAccountInstruments(id string) (AccountInstruments, error, error) {
 	endpoint := "v3/accounts/" + id + "/instruments"
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := AccountInstruments{}
-	unmarshalJson(response, &data)
-	return data
+  _ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }
 
-func (c *OandaConnection) GetAccountChanges(id string, transactionId string) AccountChanges {
+func (c *OandaConnection) GetAccountChanges(id string, transactionId string) (AccountChanges, error, error) {
 	endpoint := "v3/accounts/" + id + "/changes?sinceTransactionID=" + transactionId
 
-	response := c.Request(endpoint)
+	response, err1, err2 := c.Request(endpoint)
 	data := AccountChanges{}
-	unmarshalJson(response, &data)
-	return data
+  _ = unmarshalJson(response, &data)
+
+	return data, err1, err2
 }

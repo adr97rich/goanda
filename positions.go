@@ -49,7 +49,7 @@ func (c *OandaConnection) ClosePosition(instrument string, body ClosePositionPay
 	endpoint := "v3/accounts/" + c.AccountID + "/positions/" + instrument + "/close"
 	jsonBody, _ := json.Marshal(body)
 	response, err1, err2 := c.Update(endpoint, jsonBody)
-	data := make(map[string]string)
+	data := make(map[string]interface{})
 	_ = unmarshalJson(response, &data)
 
 	return data, err1, err2

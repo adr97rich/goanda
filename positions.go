@@ -48,9 +48,8 @@ func (c *OandaConnection) GetOpenPositions() (OpenPositions, error, error) {
 func (c *OandaConnection) ClosePosition(instrument string, body ClosePositionPayload) (ModifiedTrade, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/positions/" + instrument + "/close"
 	jsonBody, _ := json.Marshal(body)
-	//checkErr(err)
 	response, err1, err2 := c.Update(endpoint, jsonBody)
-	data := ModifiedTrade{}
+	data := make(map[string]string)
 	_ = unmarshalJson(response, &data)
 
 	return data, err1, err2

@@ -45,7 +45,7 @@ func (c *OandaConnection) GetOpenPositions() (OpenPositions, error, error) {
 	return data, err1, err2
 }
 
-func (c *OandaConnection) ClosePosition(instrument string, body ClosePositionPayload) (ModifiedTrade, error, error) {
+func (c *OandaConnection) ClosePosition(instrument string, body ClosePositionPayload) (map[string]interface{}, error, error) {
 	endpoint := "v3/accounts/" + c.AccountID + "/positions/" + instrument + "/close"
 	jsonBody, _ := json.Marshal(body)
 	response, err1, err2 := c.Update(endpoint, jsonBody)

@@ -19,14 +19,15 @@ type OnFill struct {
 }
 
 type OrderBody struct {
-	Units            string           `json:"units"`
-	Instrument       string           `json:"instrument"`
+	Units            string           `json:"units,omitempty"`
+	Instrument       string           `json:"instrument,omitempty"`
 	TimeInForce      string           `json:"timeInForce,omitempty"`
 	Type             string           `json:"type"`
 	PositionFill     string           `json:"positionFill,omitempty"`
 	Price            string           `json:"price,omitempty"`
 	TakeProfitOnFill *OnFill          `json:"takeProfitOnFill,omitempty"`
 	StopLossOnFill   *OnFill          `json:"stopLossOnFill,omitempty"`
+	Distance         string           `json:"distance,omitempty"`
 	ClientExtensions *OrderExtensions `json:"clientExtensions,omitempty"`
 	TradeID          string           `json:"tradeId,omitempty"`
 }

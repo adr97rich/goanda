@@ -29,7 +29,7 @@ type OrderBody struct {
 	StopLossOnFill   *OnFill          `json:"stopLossOnFill,omitempty"`
 	Distance         string           `json:"distance,omitempty"`
 	ClientExtensions *OrderExtensions `json:"clientExtensions,omitempty"`
-	TradeID          string           `json:"tradeId,omitempty"`
+	TradeID          string           `json:"tradeID,omitempty"`
 }
 
 type OrderPayload struct {

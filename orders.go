@@ -18,18 +18,24 @@ type OnFill struct {
 	Price       string `json:"price,omitempty"` // must be a string for float precision
 }
 
+type OnFill_Trailing_SL struct {
+	TimeInForce string `json:"timeInForce,omitempty"`
+	Distance    string `json:"distance,omitempty"` // must be a string for float precision
+}
+
 type OrderBody struct {
-	Units            string           `json:"units,omitempty"`
-	Instrument       string           `json:"instrument,omitempty"`
-	TimeInForce      string           `json:"timeInForce,omitempty"`
-	Type             string           `json:"type"`
-	PositionFill     string           `json:"positionFill,omitempty"`
-	Price            string           `json:"price,omitempty"`
-	TakeProfitOnFill *OnFill          `json:"takeProfitOnFill,omitempty"`
-	StopLossOnFill   *OnFill          `json:"stopLossOnFill,omitempty"`
-	Distance         string           `json:"distance,omitempty"`
-	ClientExtensions *OrderExtensions `json:"clientExtensions,omitempty"`
-	TradeID          string           `json:"tradeID,omitempty"`
+	Units                    string                     `json:"units,omitempty"`
+	Instrument               string                     `json:"instrument,omitempty"`
+	TimeInForce              string                     `json:"timeInForce,omitempty"`
+	Type                     string                     `json:"type"`
+	PositionFill             string                     `json:"positionFill,omitempty"`
+	Price                    string                     `json:"price,omitempty"`
+	TakeProfitOnFill         *OnFill                    `json:"takeProfitOnFill,omitempty"`
+	StopLossOnFill           *OnFill                    `json:"stopLossOnFill,omitempty"`
+	TrailingStopLossOnFill   *OnFill_Trailing_SL        `json:"trailingStopLossOnFill,omitempty"`
+	Distance                 string                     `json:"distance,omitempty"`
+	ClientExtensions         *OrderExtensions           `json:"clientExtensions,omitempty"`
+	TradeID                  string                     `json:"tradeID,omitempty"`
 }
 
 type OrderPayload struct {

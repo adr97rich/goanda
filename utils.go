@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"strings"
+	//"strings"
 )
 
 //func checkErr(err error) {
@@ -14,12 +14,12 @@ import (
 //	}
 //}
 
-func checkApiErr(body []byte, route string) {
-	bodyString := string(body[:])
-	if strings.Contains(bodyString, "errorMessage") {
-		panic("\nOANDA API Error: " + bodyString + "\nOn route: " + route)
-	}
-}
+//func checkApiErr(body []byte, route string) {
+//	bodyString := string(body[:])
+//	if strings.Contains(bodyString, "errorMessage") {
+//		panic("\nOANDA API Error: " + bodyString + "\nOn route: " + route)
+//	}
+//}
 
 func marshalJson(data interface{}) ([]byte, error) {
 	bytes, err := json.Marshal(data)
@@ -45,15 +45,20 @@ func createUrl(host string, endpoint string) string {
 }
 
 func makeRequest(c *OandaConnection, endpoint string, client http.Client, req *http.Request) ([]byte, error, error) {
+	var body []byte
+        var err1, err2 error
+    
 	req.Header.Set("User-Agent", c.Headers.agent)
 	req.Header.Set("Authorization", c.Headers.auth)
 	req.Header.Set("Content-Type", c.Headers.contentType)
 
-	res, getErr := client.Do(req)
+	res, err1 := client.Do(req)
+	if err1 == nil {
+	    body, err2 = ioutil.ReadAll(res.Body)
+	}
 	//checkErr(getErr)
-	body, readErr := ioutil.ReadAll(res.Body)
 	//checkErr(readErr)
-	checkApiErr(body, endpoint)
+	//checkApiErr(body, endpoint)
 
-	return body, getErr, readErr
+	return body, err1, err2
 }
